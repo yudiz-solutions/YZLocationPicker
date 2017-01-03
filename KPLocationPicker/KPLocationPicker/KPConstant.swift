@@ -8,7 +8,7 @@
 
 import Foundation
 
-let googleKey = "AIzaSyBkH2IlD0r7ZxXElmW8TDsIiqCrKPAYTBg" // pravin@yudiz.com
+let googleKey = ""
 
 /// If google key is empty than location fetch via goecode.
 var isGooleKeyFound : Bool = {

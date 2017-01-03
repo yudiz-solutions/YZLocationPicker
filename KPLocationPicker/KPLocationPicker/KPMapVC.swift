@@ -78,8 +78,8 @@ extension KPMapVC{
     /// Add Shadow in address lable
     func addLableShadow(){
         lblSelectedAddress.layer.shadowColor = UIColor.black.cgColor
-        lblSelectedAddress.layer.shadowRadius = 3.0
-        lblSelectedAddress.layer.shadowOpacity = 0.5
+        lblSelectedAddress.layer.shadowRadius = 4.0
+        lblSelectedAddress.layer.shadowOpacity = 0.7
         lblSelectedAddress.layer.shadowOffset = CGSize(width: 0, height: 0)
     }
     
