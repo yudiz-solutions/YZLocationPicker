@@ -24,7 +24,7 @@ self.present(mapVc, animated: true, completion: nil)
 If you want to add your custom UI then following API’s will help you to find address.
 
 ### Search with google
-+ Search your address with search text and it retuns custom Address array for related addresses in block which contains name and place `referenceID` of place. after that you can fill your UI according, you can also cancel previous request by using sessionDataTask. Also this method return one enum in block for netWorkError, loading, noResult and success.
++ Search your address with search text and it retuns custom Address array for related addresses in block which contains name and place `referenceID` of place. after that you can fill your UI according, you can also cancel previous request by using sessionDataTask. Also this method return one enum in block for `netWorkError`, `loading`, `noResult` and `success`.
 
 ```
 func searchTextDidChange(textField: UITextField){
@@ -57,7 +57,7 @@ KPAPICalls.shared.getAddressFromLatLong(lat: "72.000", long: "19.0000", block: {
 ```
 
 ### Search with Geocode
-+ Search your address with search text and it retuns custom Address array for related addresses in block of place. after that you can fill your UI according. Also this method return one enum in block for netWorkError, loading, noResult and success.
++ Search your address with search text and it retuns custom Address array for related addresses in block of place. after that you can fill your UI according. Also this method return one enum in block for `netWorkError`, `loading`, `noResult` and `success`.
 ```
 KPAPICalls.shared.searchAddressBygeocode(str: str!, block: { (adds, restype) in
     // Your Code
