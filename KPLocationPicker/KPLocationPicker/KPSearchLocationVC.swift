@@ -31,8 +31,12 @@ struct FullAddress{
 }
 
 class Address: NSObject{
+    
+    // For google search
     var name: String!
     var refCode: String!
+    
+    // For Geocode search
     var lat: Double = 0.0
     var long: Double = 0.0
     
@@ -67,7 +71,7 @@ class addressCell: UITableViewCell {
 }
 
 enum ResponceType:Int{
-    case noneType = 0
+    case success = 0
     case loading
     case noResult
     case netWorkError
@@ -90,7 +94,7 @@ class KPSearchLocationVC: UIViewController{
     // Life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadType = .noneType
+        loadType = .success
         tblView.rowHeight = UITableViewAutomaticDimension
         tblView.tableFooterView = UIView()
         tfSerach.addTarget(self, action: #selector(KPSearchLocationVC.searchTextDidChange), for: .editingChanged)
@@ -185,7 +189,7 @@ extension KPSearchLocationVC: UITextFieldDelegate{
                 })
             }
         }else{
-            self.loadType = .noneType
+            self.loadType = .success
             self.arrData = []
             self.tblView.reloadData()
         }
@@ -230,7 +234,7 @@ extension KPSearchLocationVC: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0{
-            if loadType == ResponceType.noneType {
+            if loadType == ResponceType.success {
                 return 0.0
             }else{
                 return 44.0

@@ -26,7 +26,7 @@ class KPAPICalls: NSObject{
         let url = URL(string: "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=\(str!)&sensor=false&key=\(googleKey)")!
         let req = URLRequest(url: url)
         let task = URLSession.shared.dataTask(with: req, completionHandler: { (dataObj, urlRes, err) in
-            var resType = ResponceType.noneType
+            var resType = ResponceType.success
             var arrAddress: [Address] = []
             if let res = urlRes as? HTTPURLResponse, dataObj != nil{
                 if res.statusCode == 200{
@@ -42,11 +42,11 @@ class KPAPICalls: NSObject{
                                 arrAddress.append(add)
                             }
                         }
-                        resType = .noneType
+                        resType = .success
                     }else if json["status"] as! String == "ZERO_RESULTS"{
                         resType = .noResult
                     }else{
-                        resType = .noneType
+                        resType = .success
                     }
                 }else{
                     resType = .netWorkError
@@ -200,7 +200,7 @@ class KPAPICalls: NSObject{
                 }
                 
                 DispatchQueue.main.async {
-                    block(arrPlace, ResponceType.noneType)
+                    block(arrPlace, ResponceType.success)
                 }
             }else{
                 if let err = error as? NSError{
