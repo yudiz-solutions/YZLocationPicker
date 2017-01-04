@@ -18,7 +18,8 @@ class KPMapVC: UIViewController,UISearchBarDelegate {
     
     // Variables
     var pinAnimation: CABasicAnimation!
-    var selectionBlock: ((_ add: FullAddress) -> Void)!
+    var selectedAddress: FullAddress!
+    var callBackBlock: ((_ add: FullAddress) -> Void)!
     
     // View life cycle
     override func viewDidLoad() {
@@ -45,6 +46,7 @@ class KPMapVC: UIViewController,UISearchBarDelegate {
             searchCon.selectionBlock = {[unowned self](add) -> () in
                 self.setMapResion(lat: add.lat, long: add.long)
                 self.lblSelectedAddress.text = add.address
+                self.selectedAddress = add
             }
         }
     }
@@ -56,6 +58,13 @@ extension KPMapVC{
     
     @IBAction func getUserCurrentLocation(sender: UIButton){
         self.fetchUserLocation()
+    }
+    
+    @IBAction func dismissKPPicker(sender: UIButton){
+        if selectedAddress != nil{
+            callBackBlock(selectedAddress)
+        }
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func btnSearchAddTap(sender: UIButton){
@@ -104,13 +113,17 @@ extension KPMapVC{
                         self.lblSelectedAddress.text = str
                         self.mapView.userLocation.title = str
                         self.setMapResion(lat: location!.coordinate.latitude, long: location!.coordinate.longitude)
+                        self.selectedAddress = FullAddress(lati: location!.coordinate.latitude, longi: location!.coordinate.longitude, add: str)
                     })
                 }else{
                     KPAPICalls.shared.addressFromlocation(location: location!, block: { (str) in
                         self.stopPinAnimation()
-                        self.lblSelectedAddress.text = str
-                        self.mapView.userLocation.title = str
-                        self.setMapResion(lat: location!.coordinate.latitude, long: location!.coordinate.longitude)
+                        if let _ = str{
+                            self.lblSelectedAddress.text = str
+                            self.mapView.userLocation.title = str
+                            self.setMapResion(lat: location!.coordinate.latitude, long: location!.coordinate.longitude)
+                            self.selectedAddress = FullAddress(lati: location!.coordinate.latitude, longi: location!.coordinate.longitude, add: str!)
+                        }
                     })
                 }
             }else{
@@ -127,16 +140,21 @@ extension KPMapVC: MKMapViewDelegate{
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool){
         if !animated{
             self.startPinAnimation()
+            let cord = mapView.centerCoordinate
             if isGooleKeyFound{
-                KPAPICalls.shared.getAddressFromLatLong(lat: "\(mapView.centerCoordinate.latitude)", long: "\(mapView.centerCoordinate.longitude)", block: { (str) in
+                KPAPICalls.shared.getAddressFromLatLong(lat: "\(cord.latitude)", long: "\(cord.longitude)", block: { (str) in
                     self.stopPinAnimation()
                     self.lblSelectedAddress.text = str
+                    self.selectedAddress = FullAddress(lati: cord.latitude, longi: cord.longitude, add: str)
                 })
             }else{
-                let loc = CLLocation(latitude: mapView.centerCoordinate.latitude, longitude: mapView.centerCoordinate.longitude)
+                let loc = CLLocation(latitude: cord.latitude, longitude: cord.longitude)
                 KPAPICalls.shared.addressFromlocation(location: loc, block: { (str) in
                     self.stopPinAnimation()
-                    self.lblSelectedAddress.text = str
+                    if let _ = str{
+                        self.lblSelectedAddress.text = str
+                        self.selectedAddress = FullAddress(lati: cord.latitude, longi: cord.longitude, add: str!)
+                    }
                 })
             }
         }

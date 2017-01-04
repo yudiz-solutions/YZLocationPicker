@@ -17,6 +17,12 @@ struct FullAddress{
     init(){
     }
     
+    init(lati: Double, longi: Double, add: String){
+        lat = lati
+        long = longi
+        address = add
+    }
+    
     init(addObj: Address) {
         lat = addObj.lat
         long = addObj.long
@@ -89,6 +95,7 @@ class KPSearchLocationVC: UIViewController{
         tblView.tableFooterView = UIView()
         tfSerach.addTarget(self, action: #selector(KPSearchLocationVC.searchTextDidChange), for: .editingChanged)
         initSerchBar()
+        prepareForkeyboardNotification()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -99,6 +106,10 @@ class KPSearchLocationVC: UIViewController{
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -263,5 +274,23 @@ extension KPSearchLocationVC: UITableViewDelegate,UITableViewDataSource{
         let view = tableView.dequeueReusableCell(withIdentifier: "headerCell") as! addressCell
         view.lblName.text = "Search result"
         return view
+    }
+}
+
+// MARK: - Keyboard Extension
+extension KPSearchLocationVC {
+    func prepareForkeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(KPSearchLocationVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(KPSearchLocationVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func keyboardWillShow(notification: NSNotification){
+        if let kbSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            tblView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: kbSize.height, right: 0)
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification){
+        tblView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
     }
 }

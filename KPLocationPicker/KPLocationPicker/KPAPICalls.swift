@@ -160,7 +160,7 @@ class KPAPICalls: NSObject{
     /// - Parameters:
     ///   - location: CLLocation object
     ///   - block: return formatted address string
-    func addressFromlocation(location: CLLocation, block: @escaping (String)->()){
+    func addressFromlocation(location: CLLocation, block: @escaping (String?)->()){
         geoLocation.cancelGeocode()
         geoLocation.reverseGeocodeLocation(location, completionHandler: { (placeMarks, error) -> Void in
             if let pmark = placeMarks, pmark.count > 0 {
@@ -174,6 +174,10 @@ class KPAPICalls: NSObject{
                     DispatchQueue.main.async {
                         block(str)
                     }
+                }
+            }else{
+                DispatchQueue.main.async {
+                    block(nil)
                 }
             }
         })
