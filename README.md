@@ -2,7 +2,6 @@
 KPLocation Picker allow to search location by name or set it manually on map drag. also provide option to search location by google api or geocode.
 
 ## Screen
-<br>
 ![Alt text](/../ScreenShots/screen.gif?raw=true "Optional Title")
 
 ## Usages
