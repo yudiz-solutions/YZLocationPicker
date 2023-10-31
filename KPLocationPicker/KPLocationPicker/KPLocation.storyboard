@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vIS-VF-tPW">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vIS-VF-tPW">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Search LocationVC-->
         <scene sceneID="8zo-et-n2m">
             <objects>
-                <viewController storyboardIdentifier="KPSearchLocationVC" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ICV-mg-Ys9" customClass="KPSearchLocationVC" customModule="KPLocationPicker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="KPSearchLocationVC" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ICV-mg-Ys9" customClass="YZSearchLocationVC" customModule="KPLocationPicker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BSK-OY-3Kr"/>
                         <viewControllerLayoutGuide type="bottom" id="Yj6-B9-O83"/>
@@ -33,7 +30,7 @@
                                             <outlet property="delegate" destination="ICV-mg-Ys9" id="5ay-wE-aGG"/>
                                         </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="om5-T8-dqI">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="om5-T8-dqI">
                                         <rect key="frame" x="320" y="31" width="48" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="48" id="6Rr-88-NDp"/>
@@ -63,16 +60,16 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="headerCell" id="abk-YH-pP9" customClass="addressCell" customModule="KPLocationPicker" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="50" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="abk-YH-pP9" id="MrI-9x-HFJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XzX-3B-emg">
-                                                    <rect key="frame" x="15" y="9" width="42" height="25"/>
+                                                    <rect key="frame" x="15" y="9" width="42" height="26"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" systemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -82,7 +79,7 @@
                                                 <constraint firstItem="XzX-3B-emg" firstAttribute="leading" secondItem="MrI-9x-HFJ" secondAttribute="leading" constant="15" id="kHo-hX-4GG"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                                         <connections>
                                             <outlet property="lblName" destination="XzX-3B-emg" id="Z4T-ES-knv"/>
                                         </connections>
@@ -113,12 +110,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lLR-A1-sSi" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1209" y="417"/>
+            <point key="canvasLocation" x="1484" y="416"/>
         </scene>
         <!--MapVC-->
         <scene sceneID="eI4-P8-7Zq">
             <objects>
-                <viewController storyboardIdentifier="KPMapVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vIS-VF-tPW" customClass="KPMapVC" customModule="KPLocationPicker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="KPMapVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vIS-VF-tPW" customClass="YZMapVC" customModule="KPLocationPicker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Bje-0r-LXw"/>
                         <viewControllerLayoutGuide type="bottom" id="rZF-sU-LkQ"/>
@@ -128,27 +125,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" prompt=" " placeholder="Search Address" translatesAutoresizingMaskIntoConstraints="NO" id="RUY-Nk-knO">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="75"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
                                 <color key="barTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="vIS-VF-tPW" id="VrV-o5-1XA"/>
                                 </connections>
                             </searchBar>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ogI-is-0fK">
-                                <rect key="frame" x="0.0" y="20" width="320" height="55"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ogI-is-0fK">
+                                <rect key="frame" x="0.0" y="20" width="320" height="70"/>
                                 <connections>
                                     <action selector="btnSearchAddTapWithSender:" destination="vIS-VF-tPW" eventType="touchUpInside" id="m3D-qR-ycA"/>
                                 </connections>
                             </button>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qCm-ax-Owk">
-                                <rect key="frame" x="0.0" y="75" width="375" height="592"/>
+                                <rect key="frame" x="0.0" y="90" width="375" height="577"/>
                                 <connections>
                                     <outlet property="delegate" destination="vIS-VF-tPW" id="RS7-hv-ysx"/>
                                 </connections>
                             </mapView>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jx4-lC-mZO">
-                                <rect key="frame" x="177" y="341" width="19" height="30"/>
+                                <rect key="frame" x="177" y="348.5" width="19" height="30"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="Dts-EX-5O7">
                                         <rect key="frame" x="0.0" y="0.0" width="19" height="30"/>
@@ -165,13 +162,13 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ptu-6t-olC">
-                                <rect key="frame" x="188" y="624" width="0.0" height="0.0"/>
+                                <rect key="frame" x="187.5" y="624" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h0B-8B-N9Q">
-                                <rect key="frame" x="320" y="30" width="55" height="45"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h0B-8B-N9Q">
+                                <rect key="frame" x="320" y="30" width="55" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="55" id="k9V-8j-dvL"/>
                                 </constraints>
@@ -210,7 +207,7 @@
                         <outlet property="imgPin" destination="Dts-EX-5O7" id="JsU-kQ-pEo"/>
                         <outlet property="lblSelectedAddress" destination="Ptu-6t-olC" id="E5g-VA-vTG"/>
                         <outlet property="mapView" destination="qCm-ax-Owk" id="8Cj-AM-VYt"/>
-                        <segue destination="ICV-mg-Ys9" kind="modal" identifier="locationPickerSegue" animates="NO" id="AWP-Wm-8eB"/>
+                        <segue destination="ICV-mg-Ys9" kind="presentation" identifier="locationPickerSegue" animates="NO" id="AWP-Wm-8eB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7QS-sD-Qnx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -220,5 +217,11 @@
     </scenes>
     <resources>
         <image name="pin" width="19" height="30"/>
+        <systemColor name="darkTextColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="groupTableViewBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

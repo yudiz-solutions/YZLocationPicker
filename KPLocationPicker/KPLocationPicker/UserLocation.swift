@@ -52,11 +52,11 @@ class UserLocation: NSObject  {
             let title = "Location services are off"
             let msg = "To use location you must turn on 'WhenInUse' in the location services settings"
             
-            let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertController.Style.alert)
             
-            let cancel = UIAlertAction(title: "Cancle", style: UIAlertActionStyle.cancel, handler: nil)
-            let settings = UIAlertAction(title: "Settings", style: UIAlertActionStyle.default, handler: { (action) in
-                UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
+            let cancel = UIAlertAction(title: "Cancle", style: UIAlertAction.Style.cancel, handler: nil)
+            let settings = UIAlertAction(title: "Settings", style: UIAlertAction.Style.default, handler: { (action) in
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
             })
             
             alert.addAction(cancel)
@@ -90,13 +90,8 @@ extension UserLocation: CLLocationManagerDelegate {
         geoLocation.reverseGeocodeLocation(location, completionHandler: { (placeMarks, error) -> Void in
             if let pmark = placeMarks, pmark.count > 0 {
                 let place :CLPlacemark = pmark.last! as CLPlacemark
-                if let addr = place.addressDictionary {
-                    var str = ""
-                    if let arr = addr["FormattedAddressLines"] as? NSArray{
-                        str = arr.componentsJoined(by: ",")
-                    }
+                let str = place.addressDict()
                     block(str)
-                }
             }
         })
     }

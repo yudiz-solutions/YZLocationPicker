@@ -1,5 +1,5 @@
 //
-//  KPAPICalls.swift
+//  YZAPICalls.swift
 //  LoactionPicker
 //
 //  Created by Yudiz on 1/2/17.
@@ -9,9 +9,9 @@
 import Foundation
 import MapKit
 
-class KPAPICalls: NSObject{
+class YZAPICalls: NSObject{
     
-    static let shared = KPAPICalls()
+    static let shared = YZAPICalls()
     let geoLocation = CLGeocoder()
     
     // Google API
@@ -52,7 +52,7 @@ class KPAPICalls: NSObject{
                     resType = .netWorkError
                 }
             }else{
-                if (err as! NSError).code != -999{
+                if (err! as NSError).code != -999{
                     resType = .netWorkError
                 }
             }
@@ -165,16 +165,10 @@ class KPAPICalls: NSObject{
         geoLocation.reverseGeocodeLocation(location, completionHandler: { (placeMarks, error) -> Void in
             if let pmark = placeMarks, pmark.count > 0 {
                 let place :CLPlacemark = pmark.last! as CLPlacemark
-                if let addr = place.addressDictionary {
-                    var str = ""
-                    if let arr = addr["FormattedAddressLines"] as? NSArray{
-                        str = arr.componentsJoined(by: ",")
-                    }
-                    
+                let str = place.addressDict()
                     DispatchQueue.main.async {
                         block(str)
                     }
-                }
             }else{
                 DispatchQueue.main.async {
                     block(nil)
@@ -240,5 +234,32 @@ extension NSDictionary{
             }
         }
         return ""
+    }
+}
+
+extension CLPlacemark {
+    
+    func addressDict() -> String {
+        // Access address components directly
+        var addressComponents: [String] = []
+        if let name = name {
+            addressComponents.append(name)
+        }
+        if let thoroughfare = thoroughfare {
+            addressComponents.append(thoroughfare)
+        }
+        if let locality = locality {
+            addressComponents.append(locality)
+        }
+        if let administrativeArea = administrativeArea {
+            addressComponents.append(administrativeArea)
+        }
+        if let postalCode = postalCode {
+            addressComponents.append(postalCode)
+        }
+        if let country = country {
+            addressComponents.append(country)
+        }
+        return addressComponents.joined(separator: ", ")
     }
 }

@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  KPLocationPicker
+//  YZLocationPicker
 //
 //  Created by Yudiz on 1/2/17.
 //  Copyright © 2017 Yudiz. All rights reserved.
@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true
     }

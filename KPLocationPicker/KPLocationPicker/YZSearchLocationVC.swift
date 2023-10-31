@@ -1,6 +1,6 @@
 //
-//  KPSearchLocationVC.swift
-//  KPLocationPicker
+//  YZSearchLocationVC.swift
+//  YZLocationPicker
 //
 //  Created by Yudiz on 1/2/17.
 //  Copyright © 2017 Yudiz. All rights reserved.
@@ -48,13 +48,7 @@ class Address: NSObject{
     
     init(geoCodeData: CLPlacemark) {
         refCode = ""
-        name = ""
-        if let addr = geoCodeData.addressDictionary{
-            if let arr = addr["FormattedAddressLines"] as? NSArray{
-                name = arr.componentsJoined(by: ",")
-            }
-        }
-        
+        name = geoCodeData.addressDict()
         if let loc = geoCodeData.location{
             lat = loc.coordinate.latitude
             long = loc.coordinate.longitude
@@ -77,7 +71,7 @@ enum ResponceType:Int{
     case netWorkError
 }
 
-class KPSearchLocationVC: UIViewController{
+class YZSearchLocationVC: UIViewController{
     
     // IBOutlet
     @IBOutlet var tfSerach: UITextField!
@@ -95,9 +89,9 @@ class KPSearchLocationVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         loadType = .success
-        tblView.rowHeight = UITableViewAutomaticDimension
+        tblView.rowHeight = UITableView.automaticDimension
         tblView.tableFooterView = UIView()
-        tfSerach.addTarget(self, action: #selector(KPSearchLocationVC.searchTextDidChange), for: .editingChanged)
+        tfSerach.addTarget(self, action: #selector(YZSearchLocationVC.searchTextDidChange), for: .editingChanged)
         initSerchBar()
         prepareForkeyboardNotification()
     }
@@ -118,7 +112,7 @@ class KPSearchLocationVC: UIViewController{
 }
 
 // MARK: - Action Method
-extension KPSearchLocationVC{
+extension YZSearchLocationVC{
    
     @IBAction func cancelBtnTap(sender: UIButton){
         self.dismiss(animated: false, completion: nil)
@@ -126,7 +120,7 @@ extension KPSearchLocationVC{
 }
 
 // MARK: - Other method
-extension KPSearchLocationVC{
+extension YZSearchLocationVC{
 
     /// Add search icon and clear button in textfield search
     func initSerchBar(){
@@ -140,14 +134,14 @@ extension KPSearchLocationVC{
         // Add clear button
         let btnClear = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: tfSerach.frame.size.height))
         btnClear.setImage(UIImage(named: "cancelIcon.png"), for: .normal)
-        btnClear.addTarget(self, action: #selector(KPSearchLocationVC.textFieldClear), for: .touchUpInside)
+        btnClear.addTarget(self, action: #selector(YZSearchLocationVC.textFieldClear), for: .touchUpInside)
         tfSerach.rightView = btnClear
         tfSerach.rightViewMode = .always
         
         
         // Add attributed place holder text
-        let attrDic : [String : AnyObject] = [NSFontAttributeName : UIFont(name: "Avenir", size: 15)!,
-                                              NSForegroundColorAttributeName : UIColor.lightGray]
+        let attrDic = [NSAttributedString.Key.font : UIFont(name: "Avenir", size: 15)!,
+                       NSAttributedString.Key.foregroundColor : UIColor.lightGray]
         let attriStr = NSAttributedString(string: "Search Text",attributes:attrDic)
         tfSerach.attributedPlaceholder = attriStr
         tfSerach.font = UIFont(name: "Avenir", size: 15)
@@ -157,14 +151,14 @@ extension KPSearchLocationVC{
 }
 
 //MARK:- search and textfield
-extension KPSearchLocationVC: UITextFieldDelegate{
+extension YZSearchLocationVC: UITextFieldDelegate{
     
-    func textFieldClear(sender: UIButton){
+    @objc func textFieldClear(sender: UIButton){
         tfSerach.text = ""
         self.searchTextDidChange(textField: tfSerach)
     }
     
-    func searchTextDidChange(textField: UITextField){
+    @objc func searchTextDidChange(textField: UITextField){
         if sessionDataTask != nil{
             sessionDataTask.cancel()
         }
@@ -174,15 +168,15 @@ extension KPSearchLocationVC: UITextFieldDelegate{
         self.tblView.reloadData()
         
         let str = textField.text?.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
-        if str!.characters.count > 0{
+        if str!.count > 0{
             if isGooleKeyFound{
-                sessionDataTask = KPAPICalls.shared.getReferenceFromSearchText(text: str!, block: { (addresses, resType) in
+                sessionDataTask = YZAPICalls.shared.getReferenceFromSearchText(text: str!, block: { (addresses, resType) in
                     self.loadType = resType
                     self.arrData = addresses
                     self.tblView.reloadData()
                 })
             }else{
-                KPAPICalls.shared.searchAddressBygeocode(str: str!, block: { (adds, restype) in
+                YZAPICalls.shared.searchAddressBygeocode(str: str!, block: { (adds, restype) in
                     self.loadType = restype
                     self.arrData = adds
                     self.tblView.reloadData()
@@ -202,7 +196,7 @@ extension KPSearchLocationVC: UITextFieldDelegate{
 }
 
 // MARK: - Tableview methods
-extension KPSearchLocationVC: UITableViewDelegate,UITableViewDataSource{
+extension YZSearchLocationVC: UITableViewDelegate,UITableViewDataSource{
    
     func numberOfRowsInSection(section: Int) -> Int{
         return 1
@@ -240,7 +234,7 @@ extension KPSearchLocationVC: UITableViewDelegate,UITableViewDataSource{
                 return 44.0
             }
         }else{
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         }
     }
     
@@ -255,7 +249,7 @@ extension KPSearchLocationVC: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row != 0{
             if isGooleKeyFound{
-                KPAPICalls.shared.getLocationFromReference(ref: arrData[indexPath.row - 1].refCode, block: { (address, error) in
+                YZAPICalls.shared.getLocationFromReference(ref: arrData[indexPath.row - 1].refCode, block: { (address, error) in
                     if error == nil{
                         self.selectionBlock(address!)
                         self.dismiss(animated: false, completion: nil)
@@ -282,19 +276,19 @@ extension KPSearchLocationVC: UITableViewDelegate,UITableViewDataSource{
 }
 
 // MARK: - Keyboard Extension
-extension KPSearchLocationVC {
+extension YZSearchLocationVC {
     func prepareForkeyboardNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(KPSearchLocationVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(KPSearchLocationVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(YZSearchLocationVC.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(YZSearchLocationVC.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func keyboardWillShow(notification: NSNotification){
-        if let kbSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+    @objc func keyboardWillShow(notification: NSNotification){
+        if let kbSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             tblView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: kbSize.height, right: 0)
         }
     }
     
-    func keyboardWillHide(notification: NSNotification){
+    @objc func keyboardWillHide(notification: NSNotification){
         tblView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
     }
 }

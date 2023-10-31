@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  KPLocationPicker
+//  YZLocationPicker
 //
 //  Created by Yudiz on 1/2/17.
 //  Copyright © 2017 Yudiz. All rights reserved.
@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet var lblAddress: UILabel!
     
     @IBAction func searchAddress(sender: UIButton){
-        let mapVc = UIStoryboard.init(name: "KPLocation", bundle: nil).instantiateInitialViewController() as! KPMapVC
+        let mapVc = UIStoryboard.init(name: "KPLocation", bundle: nil).instantiateInitialViewController() as! YZMapVC
         mapVc.callBackBlock = {[weak self] address in
             self?.lblAddress.text = address.address
         }

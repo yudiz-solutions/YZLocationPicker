@@ -1,5 +1,5 @@
 //
-//  KPMapVC.swift
+//  YZMapVC.swift
 //  KPLocationPicker
 //
 //  Created by Yudiz on 1/2/17.
@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class KPMapVC: UIViewController,UISearchBarDelegate {
+class YZMapVC: UIViewController,UISearchBarDelegate {
     
     // IBOutlets
     @IBOutlet weak var mapView: MKMapView!
@@ -42,7 +42,7 @@ class KPMapVC: UIViewController,UISearchBarDelegate {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "locationPickerSegue"{
-            let searchCon = segue.destination as! KPSearchLocationVC
+            let searchCon = segue.destination as! YZSearchLocationVC
             searchCon.selectionBlock = {[unowned self](add) -> () in
                 self.setMapResion(lat: add.lat, long: add.long)
                 self.lblSelectedAddress.text = add.address
@@ -54,7 +54,7 @@ class KPMapVC: UIViewController,UISearchBarDelegate {
 
 
 // MARK: - Actions
-extension KPMapVC{
+extension YZMapVC{
     
     @IBAction func getUserCurrentLocation(sender: UIButton){
         self.fetchUserLocation()
@@ -73,12 +73,12 @@ extension KPMapVC{
 }
 
 // MARK: - Other methods
-extension KPMapVC{
+extension YZMapVC{
 
     /// Init pin rotation animation
     func initAnimation(){
         pinAnimation = CABasicAnimation(keyPath: "transform.rotation.y")
-        pinAnimation.toValue = (M_PI * 2.0 * 0.2)
+        pinAnimation.toValue = (.pi * 2.0 * 0.2)
         pinAnimation.duration = 0.2
         pinAnimation.isCumulative = true
         pinAnimation.repeatCount = Float.infinity
@@ -108,7 +108,7 @@ extension KPMapVC{
         UserLocation.sharedInstance.fetchUserLocationForOnce(controller: self) { (location, error) in
             if let _ = location{
                 if isGooleKeyFound{
-                    KPAPICalls.shared.getAddressFromLatLong(lat: "\(location!.coordinate.latitude)", long: "\(location!.coordinate.longitude)", block: { (str) in
+                    YZAPICalls.shared.getAddressFromLatLong(lat: "\(location!.coordinate.latitude)", long: "\(location!.coordinate.longitude)", block: { (str) in
                         self.stopPinAnimation()
                         self.lblSelectedAddress.text = str
                         self.mapView.userLocation.title = str
@@ -116,7 +116,7 @@ extension KPMapVC{
                         self.selectedAddress = FullAddress(lati: location!.coordinate.latitude, longi: location!.coordinate.longitude, add: str)
                     })
                 }else{
-                    KPAPICalls.shared.addressFromlocation(location: location!, block: { (str) in
+                    YZAPICalls.shared.addressFromlocation(location: location!, block: { (str) in
                         self.stopPinAnimation()
                         if let _ = str{
                             self.lblSelectedAddress.text = str
@@ -134,7 +134,7 @@ extension KPMapVC{
 }
 
 // MARK: - MapView Delegate and fetch address.
-extension KPMapVC: MKMapViewDelegate{
+extension YZMapVC: MKMapViewDelegate{
     
     /// Fetch new address on map grag by user.
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool){
@@ -142,14 +142,14 @@ extension KPMapVC: MKMapViewDelegate{
             self.startPinAnimation()
             let cord = mapView.centerCoordinate
             if isGooleKeyFound{
-                KPAPICalls.shared.getAddressFromLatLong(lat: "\(cord.latitude)", long: "\(cord.longitude)", block: { (str) in
+                YZAPICalls.shared.getAddressFromLatLong(lat: "\(cord.latitude)", long: "\(cord.longitude)", block: { (str) in
                     self.stopPinAnimation()
                     self.lblSelectedAddress.text = str
                     self.selectedAddress = FullAddress(lati: cord.latitude, longi: cord.longitude, add: str)
                 })
             }else{
                 let loc = CLLocation(latitude: cord.latitude, longitude: cord.longitude)
-                KPAPICalls.shared.addressFromlocation(location: loc, block: { (str) in
+                YZAPICalls.shared.addressFromlocation(location: loc, block: { (str) in
                     self.stopPinAnimation()
                     if let _ = str{
                         self.lblSelectedAddress.text = str

@@ -1,6 +1,6 @@
 //
-//  KPConstant.swift
-//  KPLocationPicker
+//  YZConstant.swift
+//  YZLocationPicker
 //
 //  Created by Yudiz on 1/3/17.
 //  Copyright © 2017 Yudiz. All rights reserved.
